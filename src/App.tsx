@@ -6,12 +6,10 @@ import store from "./state-management/redux/AppStore";
 import ReduxPage from "./pages/ReduxPages/ReduxPage";
 
 function App(): JSX.Element {
-  // State to track which tree is open
   const [activeTree, setActiveTree] = useState<"context" | "redux" | null>(
     null
   );
 
-  // Handler for toggle button
   const handleToggle = () => {
     setActiveTree((prev) => (prev === "context" ? "redux" : "context"));
   };

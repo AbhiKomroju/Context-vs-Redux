@@ -9,6 +9,14 @@ export const RenderCounter: React.FC<RenderCounterProps> = ({ id }) => {
     const counterElement = document.getElementById(id);
     if (counterElement) {
       counterElement.innerHTML = `<span class='render-count-text'>rendered: ${renders.current}</span>`;
+
+      // Add highlight effect
+      counterElement.classList.add("render-count-highlight");
+
+      // Remove highlight effect after 2 seconds
+      setTimeout(() => {
+        counterElement.classList.remove("render-count-highlight");
+      }, 1000);
     }
   });
 

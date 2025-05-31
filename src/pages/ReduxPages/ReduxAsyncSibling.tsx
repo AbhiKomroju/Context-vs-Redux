@@ -1,5 +1,6 @@
 import { RenderCounter } from "../../components/RenderCounter";
 import { Counter } from "../../components/Counter";
+import { ExplanationBox } from "../../components/ExplanationBox";
 import { useDispatch, useSelector } from "react-redux";
 import type {
   AppDispatch,
@@ -13,7 +14,7 @@ import {
 import { useEffect } from "react";
 
 export default function ReduxAsyncSibling(): JSX.Element {
-  const { asyncCount } = useSelector((state: RootState) => state.app);
+  const asyncCount = useSelector((state: RootState) => state.app.asyncCount);
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -29,10 +30,10 @@ export default function ReduxAsyncSibling(): JSX.Element {
   };
 
   return (
-    <div className="component-box component-box--sibling component-box--async">
+    <div className="component-box component-box--async">
       <div className="component-box__header">
         <h4>Async Sibling</h4>
-        <span className="component-box__badge">(Async)</span>
+        <span className="component-box__badge">(Redux Async)</span>
       </div>
       <div className="component-box__render">
         <RenderCounter id="redux-async-sibling-render-count" />
@@ -44,6 +45,15 @@ export default function ReduxAsyncSibling(): JSX.Element {
           onDecrement={handleAsyncDecrement}
         />
       </div>
+      <ExplanationBox
+        title="Redux Async Operations"
+        explanation="Component consuming async count state from store which gets updated after 2 seconds."
+        keyPoints={[
+          "Re-renders only when its subscribed state changes",
+          "Updating the state updates all the components consuming the particular state",
+        ]}
+        variant="minimal"
+      />
     </div>
   );
 }

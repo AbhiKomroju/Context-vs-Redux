@@ -1,4 +1,5 @@
 import { RenderCounter } from "../../components/RenderCounter";
+import { ExplanationBox } from "../../components/ExplanationBox";
 import ReduxAsyncSibling from "./ReduxAsyncSibling";
 import ReduxStateDemo from "./ReduxStateDemo";
 import ReduxNormalSibling from "./ReduxNormalSibling";
@@ -13,6 +14,15 @@ export default function ReduxPage(): JSX.Element {
         <div className="component-box__render">
           <RenderCounter id="render-redux-page-count" />
         </div>
+        <ExplanationBox
+          title="Parent"
+          explanation="This is the Parent Component of all the Redux consumers."
+          keyPoints={[
+            "Wraps entire component tree with Provider",
+            "Doesn't consume any global state",
+          ]}
+          variant="compact"
+        />
       </div>
 
       <div className="tree-connection tree-connection--page"></div>

@@ -1,8 +1,9 @@
 import { RenderCounter } from "../../components/RenderCounter";
 import { Counter } from "../../components/Counter";
-import ReduxSimpleConsumer from "./ReduxSimpleConsumer";
-import ReduxMemoizedConsumer from "./ReduxMemoizedConsumer";
-import ReduxConditionalConsumer from "./ReduxConditionalConsumer";
+import { ExplanationBox } from "../../components/ExplanationBox";
+import ReduxSimpleChild from "./ReduxSimpleChild";
+import ReduxMemoizedChild from "./ReduxMemoizedChild";
+import ReduxConditionalChild from "./ReduxConditionalChild";
 import { useDispatch, useSelector } from "react-redux";
 import type {
   AppDispatch,
@@ -37,20 +38,29 @@ export default function ReduxStateDemo(): JSX.Element {
             onDecrement={handleDecrement}
           />
         </div>
+        <ExplanationBox
+          title="State Management Hub"
+          explanation="Consumes global state count from store"
+          keyPoints={[
+            "Re-renders only when its subscribed state changes",
+            "Updating the state updates all the components consuming the particular state",
+          ]}
+          variant="compact"
+        />
       </div>
 
       <div className="tree-connection tree-connection--demo"></div>
 
       <div className="consumer-children">
         <div className="consumer-box">
-          <ReduxSimpleConsumer />
+          <ReduxSimpleChild />
         </div>
         <div className="consumer-box">
-          <ReduxMemoizedConsumer />
+          <ReduxMemoizedChild />
         </div>
         {isTrue && (
           <div className="consumer-box consumer-box--conditional">
-            <ReduxConditionalConsumer />
+            <ReduxConditionalChild />
           </div>
         )}
       </div>
