@@ -8,7 +8,7 @@ export default function ReduxSimpleChild(): JSX.Element {
     <div className="component-box component-box--consumer">
       <div className="component-box__header">
         <h4>Simple Child</h4>
-        <span className="component-box__badge">(useSelector)</span>
+        <span className="component-box__badge">(No Memo)</span>
       </div>
       <div className="component-box__render">
         <RenderCounter id="redux-simple-consumer-render-count" />
