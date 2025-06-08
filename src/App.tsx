@@ -1,25 +1,42 @@
+/**
+ * Main application component demonstrating React state management using Context API and Redux
+ * This component serves as the entry point and handles navigation between different state management implementations
+ */
 import { useState } from "react";
 import { AppProvider } from "./state-management/context/AppContext";
 import ContextPage from "./pages/ContextPages/ContextPage";
 import { Provider } from "react-redux";
 import store from "./state-management/redux/AppStore";
 import ReduxPage from "./pages/ReduxPages/ReduxPage";
+import ComparisonTable from "./components/ComparisonTable";
+import BugReportButton from "./components/BugReportButton";
+import "./styles/ComparisonTable.css";
 
 function App(): JSX.Element {
+  // State to track which state management implementation is currently active
   const [activeTree, setActiveTree] = useState<"context" | "redux" | null>(
     null
   );
 
+  /**
+   * Toggles between Context API and Redux implementations
+   * If Context is active, switches to Redux and vice versa
+   */
   const handleToggle = () => {
     setActiveTree((prev) => (prev === "context" ? "redux" : "context"));
   };
 
-  // Handler for clicking a selector box
+  /**
+   * Sets the active state management implementation
+   * @param tree - The state management implementation to activate
+   */
   const handleSelect = (tree: "context" | "redux") => {
     setActiveTree(tree);
   };
 
-  // Handler for going home
+  /**
+   * Resets the view to the home page
+   */
   const handleGoHome = () => {
     setActiveTree(null);
   };
@@ -30,14 +47,7 @@ function App(): JSX.Element {
         <h1>React State Management Demo</h1>
         <p>Context API vs Redux Toolkit</p>
         {activeTree && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: "1rem",
-              margin: "0.3rem 0",
-            }}
-          >
+          <div className="navigation-buttons">
             <button className="tree-toggle-btn" onClick={handleToggle}>
               {activeTree === "context" ? "Go to Redux" : "Go to Context"}
             </button>
@@ -52,27 +62,30 @@ function App(): JSX.Element {
       </header>
 
       <main className="app__content">
-        {/* Selector boxes shown only if no tree is open */}
+        {/* Home view with comparison table and implementation selection */}
         {!activeTree && (
-          <div className="tree-selector-container">
-            <div
-              className="tree-selector-box tree-selector-box--context"
-              onClick={() => handleSelect("context")}
-            >
-              <h2>Context API</h2>
-              <p>View the Context API tree</p>
+          <>
+            <div className="tree-selector-container">
+              <div
+                className="tree-selector-box tree-selector-box--context"
+                onClick={() => handleSelect("context")}
+              >
+                <h2>Context API</h2>
+                <p>View the Context API tree</p>
+              </div>
+              <div
+                className="tree-selector-box tree-selector-box--redux"
+                onClick={() => handleSelect("redux")}
+              >
+                <h2>Redux Toolkit</h2>
+                <p>View the Redux Toolkit tree</p>
+              </div>
             </div>
-            <div
-              className="tree-selector-box tree-selector-box--redux"
-              onClick={() => handleSelect("redux")}
-            >
-              <h2>Redux Toolkit</h2>
-              <p>View the Redux Toolkit tree</p>
-            </div>
-          </div>
+            <ComparisonTable />
+          </>
         )}
 
-        {/* Show the selected tree */}
+        {/* Context API implementation view */}
         {activeTree === "context" && (
           <div className="tree-container">
             <div className="tree-branch tree-branch--context">
@@ -85,17 +98,22 @@ function App(): JSX.Element {
             </div>
           </div>
         )}
+
+        {/* Redux implementation view */}
         {activeTree === "redux" && (
-          <div className="tree-container">
-            <div className="tree-branch tree-branch--redux">
-              <div className="section-header">
-                <h2>Redux Toolkit</h2>
+          <>
+            <div className="tree-container">
+              <div className="tree-branch tree-branch--redux">
+                <div className="section-header">
+                  <h2>Redux Toolkit</h2>
+                </div>
+                <Provider store={store}>
+                  <ReduxPage />
+                </Provider>
               </div>
-              <Provider store={store}>
-                <ReduxPage />
-              </Provider>
             </div>
-          </div>
+            <BugReportButton />
+          </>
         )}
       </main>
     </div>

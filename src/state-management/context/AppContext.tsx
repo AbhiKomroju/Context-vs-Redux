@@ -1,11 +1,24 @@
+/**
+ * Context API implementation for the application's state management
+ * Demonstrates the use of useReducer with Context for global state management
+ */
 import { createContext, useEffect, useReducer, type ReactNode } from "react";
 
+/**
+ * Interface defining the shape of the application state
+ */
 interface InitialState {
+  /** Counter for synchronous operations */
   count: number;
+  /** Counter for asynchronous operations */
   asyncCount: number;
+  /** Boolean flag for conditional rendering */
   isTrue: boolean;
 }
 
+/**
+ * Union type of all possible actions that can be dispatched
+ */
 type Action =
   | { type: "INCREMENT" }
   | { type: "DECREMENT" }
@@ -16,21 +29,36 @@ type Action =
   | { type: "SET_AUTHORIZATION_STATUS"; payload: boolean }
   | { type: "SET_NOTIFICATION_MESSAGE"; payload: string };
 
+/**
+ * Props for the AppProvider component
+ */
 type Props = {
   children: ReactNode;
 };
 
+/**
+ * Type definition for the context value
+ */
 type AppContextType = {
   state: InitialState;
   dispatch: React.Dispatch<Action>;
 };
 
+/**
+ * Initial state for the application
+ */
 const initialState: InitialState = {
   count: 0,
   asyncCount: 0,
   isTrue: true,
 };
 
+/**
+ * Reducer function that handles state updates based on dispatched actions
+ * @param state - Current state
+ * @param action - Action to be processed
+ * @returns Updated state
+ */
 const reducer = (state: InitialState, action: Action): InitialState => {
   switch (action.type) {
     case "INCREMENT":
@@ -50,11 +78,20 @@ const reducer = (state: InitialState, action: Action): InitialState => {
   }
 };
 
+/**
+ * Context instance for the application state
+ */
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+/**
+ * Provider component that wraps the application and provides state management
+ * @param props - Component props containing children
+ * @returns Provider component with state management
+ */
 const AppProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // Initialize async state after component mount
   useEffect(() => {
     async function setAsyncState() {
       await new Promise<void>((resolve) =>

@@ -1,3 +1,12 @@
+/**
+ * ContextPage component that demonstrates Context API state management
+ *
+ * This page serves as the parent component for all Context API demonstrations.
+ * It wraps the entire component tree with AppProvider and displays various
+ * child components that consume the context in different ways.
+ *
+ * @returns {JSX.Element} The Context API demonstration page
+ */
 import { RenderCounter } from "../../components/RenderCounter";
 import { ExplanationBox } from "../../components/ExplanationBox";
 import ContextStateDemo from "./ContextStateDemo";
@@ -7,6 +16,7 @@ import ContextNormalSibling from "./ContextNormalSibling";
 export default function ContextPage(): JSX.Element {
   return (
     <div className="page-container">
+      {/* Parent component box showing render count and explanation */}
       <div className="component-box component-box--page">
         <div className="component-box__header">
           <h3>Context Page</h3>
@@ -25,8 +35,13 @@ export default function ContextPage(): JSX.Element {
         />
       </div>
 
-      <div className="tree-connection tree-connection--page"></div>
+      {/* Visual connection between parent and children */}
+      <div
+        className="tree-connection tree-connection--page"
+        aria-hidden="true"
+      ></div>
 
+      {/* Container for child components demonstrating different context usage patterns */}
       <div className="page-children">
         <div className="page-child">
           <ContextAsyncSibling />
